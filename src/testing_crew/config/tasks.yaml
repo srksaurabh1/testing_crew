@@ -1,0 +1,11 @@
+research_task:
+  description: >-
+    Search the internet for recent and accurate information about the brand "{{ company_name }}".
+  expected_output: >-
+    A list of top, relevant and reputable information links and summaries about "{{ company_name }}".
+
+reporting_task:
+  description: >-
+    Using the research data, write a clear and concise brand summary for "{{ company_name }}".
+  expected_output: >-
+    A markdown-formatted brand summary containing the company’s purpose, recent events, and brand positioning.

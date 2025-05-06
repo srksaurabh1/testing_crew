@@ -1,0 +1,11 @@
+name: CodeLamma
+version: 0.0.1
+schema: v1
+models:
+  - provider: meta
+    model: codellama:latest
+    apiKey: ""
+    name: codellama:latest
+    roles:
+      - chat
+      - edit
