@@ -5,6 +5,9 @@ from datetime import datetime
 from dotenv import load_dotenv
 # from serpapi import GoogleSearch
 from crewai_tools import SerperDevTool
+import ast
+from crewai import Crew
+from testing_crew.crew import TestingCrew
 
 # Load environment variables
 load_dotenv()
@@ -28,13 +31,21 @@ def fetch_data(company_name):
     except Exception as e:
         print(f"Error fetching data from SerpAPI: {e}")
         return None
+    
+def parse_data(data):
+    query = data['searchParameters']['q']
+    location = data['searchParameters']['location']
+    top_results = data['organic']
+    related_searches = [item['query'] for item in data['relatedSearches']]
+    credits_used = data['credits'] 
+    
+    return top_results  
 
-
-def analyze_data(data):
+def analyze_data(data, reporting_analyst):
     print("Data Analysis:")
-    for i, item in enumerate(data[:3], 1):  # Top 3 results
-        print(f"{i}. {item.get('title')}: {item.get('link')}")
-    return "Top search results analyzed"
+    analysis_result = reporting_analyst.run(data=data)
+    print("Analysis Result:", analysis_result)
+    return analysis_result
 
 def generate_brand_summary(company_name, analysis_result):
     summary = f"Brand Summary for {company_name}:\n"
@@ -46,12 +57,21 @@ def main():
     config = load_config()
     company_name = config['company_name']
 
-    data = fetch_data(company_name)
+    # Initialize the crew
+    crew = TestingCrew()
+    my_crew = crew.crew()
+
+    researcher = my_crew.agents[0]
+    reporting_analyst = my_crew.agents[1]
     
+    data = fetch_data(company_name)
 
     if data:
         print(data)
-        analysis_result = analyze_data(data)
+        parsed_data = parse_data(data)
+        
+        analysis_result = analyze_data(parsed_data, reporting_analyst)
+        
         brand_summary = generate_brand_summary(company_name, analysis_result)
         print(brand_summary)
 
