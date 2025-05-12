@@ -1,2 +1,2 @@
-company_name: "OpenAI"
-llm: "gemini/gemini-1.5-flash"
+company_name: "Nike"
+# llm: "gemini/gemini-1.5-flash"

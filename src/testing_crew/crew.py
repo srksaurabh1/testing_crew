@@ -1,15 +1,19 @@
 from crewai import Agent, Crew, Process, Task, LLM
-from crewai.project import CrewBase, agent, crew, task, before_kickoff, after_kickoff
+from crewai.project import CrewBase, agent, crew, task, before_kickoff, after_kickoff, tool
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List, Dict
 import yaml
-from crewai_tools import SerperDevTool
+from crewai_tools import SerperDevTool, WebsiteSearchTool
+from crewai.tools import BaseTool
+
 
 @CrewBase
 class TestingCrew():
     def __init__(self):
-        self.llmGemini = LLM(model="gemini/gemini-1.5-flash",
-                       temperature=0.7,)   
+        self.llmGemini = LLM(model="gemini/gemini-2.0-flash-lite-preview-02-05",
+                       temperature=0.7,
+                    #    api_base="http://localhost:11434", ###forLocal
+                       )   
             
         self.agents_config: Dict[str, dict]
         self.tasks_config: Dict[str, dict]
@@ -25,11 +29,12 @@ class TestingCrew():
             name=self.company_name,
             n_results=3
         )
-
+        
     @before_kickoff
     def before_kickoff_function(self, inputs):
         print(f"Before kickoff function with inputs: {inputs}")
-        return inputs # You can return the inputs or modify them as needed
+        print(f"Using LLM configuration: {self.llmGemini}")
+        return inputs 
 
     @agent
     def researcher(self) -> Agent:
@@ -37,7 +42,9 @@ class TestingCrew():
             config=self.agents_config['researcher'], 
             verbose=True, 
             llm=self.llmGemini,
-            tools=[self.tool_google_search])
+            tools=[self.tool_google_search],
+            function_calling_llm = self.llmGemini
+            )
 
     @agent
     def reporting_analyst(self) -> Agent:
