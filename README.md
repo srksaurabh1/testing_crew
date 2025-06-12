@@ -61,7 +61,7 @@ This example, unmodified, will run the create a `report.md` file with the output
 
 The testing_crew Crew is composed of multiple AI agents, each with unique roles, goals, and tools. These agents collaborate on a series of tasks, defined in `config/tasks.yaml`, leveraging their collective skills to achieve complex objectives. The `config/agents.yaml` file outlines the capabilities and configurations of each agent in your crew.
 
-How the agents Works:
+## How the agents Works:
 
 ```mermaid
 sequenceDiagram
@@ -94,3 +94,69 @@ sequenceDiagram
     TestingCrew->>TestingCrew: after_kickoff_function(result)
     TestingCrew->>User: Return final result
 ```
+
+## Class Diagram
+classDiagram
+    class TestingCrew {
+        - llmGemini: LLM
+        - agents_config: Dict[str, dict]
+        - tasks_config: Dict[str, dict]
+        - agents: List[BaseAgent]
+        - tasks: List[Task]
+        - company_name: str
+        - tool_google_search: SerperDevTool
+        + before_kickoff_function(inputs)
+        + researcher() Agent
+        + reporting_analyst() Agent
+        + research_task() Task
+        + reporting_task() Task
+        + crew() Crew
+        + after_kickoff_function(result)
+    }
+
+    class LLM {
+        + model: str
+        + temperature: float
+    }
+
+    class Agent {
+        + config: dict
+        + verbose: bool
+        + llm: LLM
+        + tools: List[BaseTool]
+        + function_calling_llm: LLM
+    }
+
+    class Task {
+        + config: dict
+        + agent: Agent
+        + output_file: str
+    }
+
+    class Crew {
+        + agents: List[Agent]
+        + tasks: List[Task]
+        + process: Process
+        + verbose: bool
+    }
+
+    class SerperDevTool {
+        + name: str
+        + n_results: int
+    }
+
+    class BaseAgent {}
+    class BaseTool {}
+    class Process {}
+
+    TestingCrew --> LLM : uses
+    TestingCrew --> SerperDevTool : uses
+    TestingCrew --> Agent : creates
+    TestingCrew --> Task : creates
+    TestingCrew --> Crew : creates
+    Agent --> LLM : uses
+    Agent --> BaseTool : uses
+    Task --> Agent : assigned to
+    Crew --> Agent : has
+    Crew --> Task : has
+
