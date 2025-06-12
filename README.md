@@ -69,3 +69,34 @@ flowchart TD
     K --> L[Generate report.md Output]
     L --> M[End]
 ```
+```
+sequenceDiagram
+    participant User as actor User
+    participant TestingCrew as TestingCrew
+    participant LLM as llmGemini (LLM)
+    participant SerperDevTool as tool_google_search
+    participant Researcher as Researcher Agent
+    participant ReportingAnalyst as Reporting Analyst Agent
+    participant Crew as Crew
+
+    User->>TestingCrew: Instantiate TestingCrew()
+    TestingCrew->>LLM: Initialize LLM (Gemini)
+    TestingCrew->>SerperDevTool: Initialize SerperDevTool
+    TestingCrew->>TestingCrew: Load config.yaml
+    User->>TestingCrew: Start crew()
+    TestingCrew->>Researcher: researcher() (with LLM, tool_google_search)
+    TestingCrew->>ReportingAnalyst: reporting_analyst() (with LLM)
+    TestingCrew->>Researcher: research_task() (assigns Researcher)
+    TestingCrew->>ReportingAnalyst: reporting_task() (assigns ReportingAnalyst)
+    TestingCrew->>Crew: crew() (with agents, tasks, sequential process)
+    User->>TestingCrew: Run before_kickoff_function(inputs)
+    TestingCrew->>TestingCrew: before_kickoff_function logic
+    Crew->>Researcher: Execute research_task
+    Researcher->>SerperDevTool: Use Google Search Tool
+    Researcher->>LLM: Use LLM for research
+    Crew->>ReportingAnalyst: Execute reporting_task
+    ReportingAnalyst->>LLM: Use LLM for reporting
+    Crew->>TestingCrew: Return result
+    TestingCrew->>TestingCrew: after_kickoff_function(result)
+    TestingCrew->>User: Return final result
+```
