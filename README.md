@@ -1,6 +1,6 @@
-# TestingCrew Crew
+# Brand Monitoring Crew
 
-Welcome to the TestingCrew Crew project, powered by [crewAI](https://crewai.com). This template is designed to help you set up a multi-agent AI system with ease, leveraging the powerful and flexible framework provided by crewAI. Our goal is to enable your agents to collaborate effectively on complex tasks, maximizing their collective intelligence and capabilities.
+Welcome to the Brand Monitoring Crew project, powered by [crewAI](https://crewai.com). This project is designed to create brand summaries using agents, leveraging the powerful and flexible framework provided by crewAI. Our goal is to enable your agents to collaborate effectively on generating comprehensive brand summaries, maximizing their collective intelligence and capabilities.
 
 ## Installation
 
@@ -45,10 +45,25 @@ The testing_crew Crew is composed of multiple AI agents, each with unique roles,
 
 ## Support
 
-For support, questions, or feedback regarding the TestingCrew Crew or crewAI.
+For support, questions, or feedback regarding the Brand Monitoring Crew or crewAI.
 - Visit our [documentation](https://docs.crewai.com)
 - Reach out to us through our [GitHub repository](https://github.com/joaomdmoura/crewai)
 - [Join our Discord](https://discord.com/invite/X4JWnZnxPb)
 - [Chat with our docs](https://chatg.pt/DWjSBZn)
 
 Let's create wonders together with the power and simplicity of crewAI.
+
+
+flowchart TD
+    A[Start: Install Python 3.10-3.12] --> B[Install UV Package Manager]
+    B --> C[Navigate to Project Directory]
+    C --> D[Install Dependencies with crewai install]
+    D --> E[Add OPENAI_API_KEY to .env]
+    E --> F[Configure Agents in agents.yaml]
+    F --> G[Configure Tasks in tasks.yaml]
+    G --> H[Customize Logic in crew.py]
+    H --> I[Customize Inputs in main.py]
+    I --> J[Run Project with crewai run]
+    J --> K[Agents Collaborate on Tasks]
+    K --> L[Generate report.md Output]
+    L --> M[End]

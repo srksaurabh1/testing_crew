@@ -25,6 +25,7 @@ class TestingCrew():
             config = yaml.safe_load(f)
         
         self.company_name = config['company_name']
+        
         self.tool_google_search = SerperDevTool(
             name=self.company_name,
             n_results=3
