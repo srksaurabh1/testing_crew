@@ -69,7 +69,8 @@ flowchart TD
     K --> L[Generate report.md Output]
     L --> M[End]
 ```
-```
+
+```mermaid
 sequenceDiagram
     participant User as actor User
     participant TestingCrew as TestingCrew
